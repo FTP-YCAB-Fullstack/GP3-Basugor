@@ -25,12 +25,16 @@ BREAKDOWN PENGERJAAN:
 4. CRUD (Creator) - Admin ? R - User
 
 
-1. /users (GetAll(Admin), GetDetail(Own), Update(Admin, Own))
+1. /users (GetAll(Admin), GetDetail(Own), Patch(Own))
 
-2. /motors (GetAll(User, Admin), GetDetail(User, Admin), Create(Admin), Delete(Admin)
+2. /motors (GetAll(User, Admin), GetDetail(User, Admin), Post(Admin), Delete(Admin), Patch(Admin))
 
-3. /creators (GetAll(User, Admin), GetDetail(User, Admin), Create(Admin), Delete(Admin))
+3. /creators (GetAll(User, Admin), GetDetail(User, Admin), Post(Admin), Delete(Admin), Patch(Admin))
 
-4. /categories (GetAll(User, Admin), GetDetail(User, Admin), Create(Admin), Delete(Admin))
+4. /categories (GetAll(User, Admin), GetDetail(User, Admin), Post(Admin), Delete(Admin), Patch(Admin))
 
-3. /volumes (GetAll(User, Admin), GetDetail(User, Admin), Create(Admin), Delete(Admin))
+3. /volumes (GetAll(User, Admin), GetDetail(User, Admin), Post(Admin), Delete(Admin), Patch(Admin))
+
+4. /users/signup
+
+5. /users/login
