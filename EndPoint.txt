@@ -26,9 +26,9 @@
         /factories/:id => PATCH Detail factories information (Admin)
         /factories/:id => DELETE Detail factories information (Admin)
 
-5. /styles 
-        /styles => GET All styles Information (Admin, User)
-        /styles => POST New styles (Admin)
-        /styles/:id => GET Detail styles information (Admin, User)
-        /styles/:id => PATCH Detail styles information (Admin)
-        /styles/:id => DELETE Detail styles information (Admin)
+5. /types 
+        /types => GET All types Information (Admin, User)
+        /types => POST New types (Admin)
+        /types/:id => GET Detail types information (Admin, User)
+        /types/:id => PATCH Detail types information (Admin)
+        /types/:id => DELETE Detail types information (Admin)
