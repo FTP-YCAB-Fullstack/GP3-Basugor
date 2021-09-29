@@ -15,27 +15,11 @@ module.exports = {
       {
         name: "admin",
         email: "admin@gmail.com",
-        password: "admin123",
+        password: "$2a$10$ZJcnh9SSJC6o.j6skdamsuS4MXcqwE06XXT.o1pfohaHl9uTFEeZy",
         role: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
-      },
-      {
-        name: "dedy",
-        email: "dedy@gmail.com",
-        password: "dedy123",
-        role: "user",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "Ganda",
-        email: "ganda@gmail.com",
-        password: "ganda123",
-        role: "user",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
+      }
     ]);
   },
 
