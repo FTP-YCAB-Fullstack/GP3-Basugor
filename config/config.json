@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
+    "username": "skilvuljaya",
+    "password": "Sk1lvulJ@y@",
     "database": "motorans",
     "host": "127.0.0.1",
     "dialect": "mysql"
