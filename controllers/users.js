@@ -33,7 +33,7 @@ class Users {
         res.status(201).json(tampil);
       }
     } catch (err) {
-      console.log(err);
+      next({code: 500, message: err.message});
     }
   };
   static login = async (req, res, next) => {
