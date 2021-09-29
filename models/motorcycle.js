@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     price: {
-      type: DataTypes.INTEGER(4),
+      type: DataTypes.INTEGER(40),
       allowNull: false,
       validate: {
         notNull: true
