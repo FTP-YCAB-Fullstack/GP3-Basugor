@@ -7,17 +7,25 @@ class auth {
       if (err) {
         next({code: 401, message: err.message || 'invalid credential'})
       } else {
-        req.user = result
+        req.currentUser = result
         next()
       }
     })
   };
   static Authorization = (roles) => async (req, res, next) => {
-      if (!roles.includes(req.user.role)) {
-        next({code: 403, message: 'Forbidden'})
+    try {
+      console.log(req.currentUser)
+      if (!roles.includes(req.currentUser.role)) {
+        next({
+          code: 403,
+          message: "Forbidden",
+        });
       } else {
-        next()
+        next();
       }
+    } catch (error) {
+      next({ code: 500, message: "Internal Server Error" });
+    }
   };
 }
 

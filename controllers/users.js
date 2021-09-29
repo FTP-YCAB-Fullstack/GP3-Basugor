@@ -25,7 +25,12 @@ class Users {
           password,
           role: "user",
         });
-        res.status(201).json(newAccount);
+
+        let tampil = {
+          status: 'success',
+          detail: {name, email}
+        }
+        res.status(201).json(tampil);
       }
     } catch (err) {
       console.log(err);
@@ -59,7 +64,7 @@ class Users {
         }
       }
     } catch (error) {
-      next({ code: 500, message: "Internal Server Error" });
+      next({ code: 500, message: error.message });
     }
   };
   static getAll = async (req, res, next) => {
@@ -73,8 +78,13 @@ class Users {
   };
   static getId = async (req,res,next) =>{
       try {
-        let {id} = req.params;
         
+        let {id} = req.params
+
+        if (req.currentUser.id !== +id) {
+          return next({code: 403, message: 'forbidden'})
+        }
+
         const data = await user.findByPk(id)
 
         if (!data) {
@@ -91,6 +101,11 @@ class Users {
     try {
       let {id} = req.params;
       let {name, email, password} = req.body;
+
+      if (req.currentUser.id !== +id) {
+        next({code: 403, message: 'Forbidden'})
+      }
+
       const data = await user.findByPk(id);
 
       if (!data) {
@@ -101,13 +116,13 @@ class Users {
       data.email = email || data.email;
       data.password = password || data.password
 
-      data.save()
+      await data.save()
 
       res.status(200).json({
         status: 'updated'
       })
     } catch (error) {
-      next({code: 500, message: 'Internal Server Error'})
+      next({code: 500, message: error.message})
     }
   }
 }
