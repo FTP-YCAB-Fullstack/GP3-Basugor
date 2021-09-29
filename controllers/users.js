@@ -64,24 +64,50 @@ class Users {
   };
   static getAll = async (req, res, next) => {
     try {
-      
+      console.log(req.user)
+      const data = await user.findAll()
+      res.status(200).json(data)
     } catch (error) {
-      
+      next({code: 500, message: error.message})
     }
-  }
+  };
   static getId = async (req,res,next) =>{
       try {
-    
-      } catch (error) {
-    
-      }
-  } 
+        let {id} = req.params;
+        
+        const data = await user.findByPk(id)
 
+        if (!data) {
+          next({code: 404, message: 'Not Found'})
+        } else {
+          res.status(200).json(data)
+
+        }
+      } catch (error) {
+        next({code: 500, message: error.message})
+      }
+  };
   static patch = async (req, res, next) => {
     try {
-      
+      let {id} = req.params;
+      let {name, email, password} = req.body;
+      const data = await user.findByPk(id);
+
+      if (!data) {
+        return next({code: 400, message: 'User not found'})
+      }
+
+      data.name = name || data.name;
+      data.email = email || data.email;
+      data.password = password || data.password
+
+      data.save()
+
+      res.status(200).json({
+        status: 'updated'
+      })
     } catch (error) {
-      
+      next({code: 500, message: 'Internal Server Error'})
     }
   }
 }
