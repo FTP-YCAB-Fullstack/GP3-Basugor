@@ -25,7 +25,12 @@ class Users {
           password,
           role: "user",
         });
-        res.status(201).json(newAccount);
+
+        let tampil = {
+          status: 'success',
+          detail: {name, email}
+        }
+        res.status(201).json(tampil);
       }
     } catch (err) {
       console.log(err);
@@ -59,29 +64,65 @@ class Users {
         }
       }
     } catch (error) {
-      next({ code: 500, message: "Internal Server Error" });
+      next({ code: 500, message: error.message });
     }
   };
   static getAll = async (req, res, next) => {
     try {
-      
+      console.log(req.user)
+      const data = await user.findAll()
+      res.status(200).json(data)
     } catch (error) {
-      
+      next({code: 500, message: error.message})
     }
-  }
+  };
   static getId = async (req,res,next) =>{
       try {
-    
-      } catch (error) {
-    
-      }
-  } 
+        
+        let {id} = req.params
 
+        if (req.currentUser.id !== +id) {
+          return next({code: 403, message: 'forbidden'})
+        }
+
+        const data = await user.findByPk(id)
+
+        if (!data) {
+          next({code: 404, message: 'Not Found'})
+        } else {
+          res.status(200).json(data)
+
+        }
+      } catch (error) {
+        next({code: 500, message: error.message})
+      }
+  };
   static patch = async (req, res, next) => {
     try {
-      
+      let {id} = req.params;
+      let {name, email, password} = req.body;
+
+      if (req.currentUser.id !== +id) {
+        next({code: 403, message: 'Forbidden'})
+      }
+
+      const data = await user.findByPk(id);
+
+      if (!data) {
+        return next({code: 400, message: 'User not found'})
+      }
+
+      data.name = name || data.name;
+      data.email = email || data.email;
+      data.password = password || data.password
+
+      await data.save()
+
+      res.status(200).json({
+        status: 'updated'
+      })
     } catch (error) {
-      
+      next({code: 500, message: error.message})
     }
   }
 }

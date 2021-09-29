@@ -1,11 +1,24 @@
+const jwt = require('jsonwebtoken');
+
 class auth {
-  static Authentication = async (req, res, next) => {};
+  static Authentication = async (req, res, next) => {
+    const {token} = req.headers;
+    jwt.verify(token, 'motorans', (err, result) => {
+      if (err) {
+        next({code: 401, message: err.message || 'invalid credential'})
+      } else {
+        req.currentUser = result
+        next()
+      }
+    })
+  };
   static Authorization = (roles) => async (req, res, next) => {
     try {
-      if (roles.includes(req.currentUser.role)) {
+      console.log(req.currentUser)
+      if (!roles.includes(req.currentUser.role)) {
         next({
-          code: 401,
-          message: "Authorizantion failed",
+          code: 403,
+          message: "Forbidden",
         });
       } else {
         next();

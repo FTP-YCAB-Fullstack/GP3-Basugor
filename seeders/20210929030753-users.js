@@ -15,7 +15,7 @@ module.exports = {
       {
         name: "admin",
         email: "admin@gmail.com",
-        password: "$2a$10$ZJcnh9SSJC6o.j6skdamsuS4MXcqwE06XXT.o1pfohaHl9uTFEeZy",
+        password: "$2b$10$rMcsPaj8F.cprWMCliI/zeBIRMC1dM67lpp1oDGe11ckhs7OuiLhu",
         role: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
