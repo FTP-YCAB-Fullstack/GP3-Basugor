@@ -13,13 +13,21 @@ module.exports = {
      */
     await queryInterface.bulkInsert("factories", [
       {
-        nameFactory: "Yamaha",
-        president: "Ganda",
-        headquarter: "Jepang",
-        founded: 1995,
+        nameFactory: "Yamaha Motor",
+        president: "Yoshihiro Hidaka",
+        headquarter: "Japan",
+        founded: 1955,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        nameFactory: "Honda Motor Company",
+        president: "Takahiro Hochigo",
+        headquarter: "Japan",
+        founded: 1948,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     ]);
   },
 
@@ -30,5 +38,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    queryInterface.bulkDelete('factories', null, {})
   },
 };

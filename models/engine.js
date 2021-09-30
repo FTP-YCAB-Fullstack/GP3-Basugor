@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   engine.init({
     transmission: { 
-      type: DataTypes.INTEGER(50),
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     stroke: {

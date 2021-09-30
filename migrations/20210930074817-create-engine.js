@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       transmission: {
-        type: Sequelize.INTEGER(50),
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       stroke: {
