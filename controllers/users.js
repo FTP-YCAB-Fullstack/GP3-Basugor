@@ -1,4 +1,4 @@
-const { user } = require("./../models");
+const { user, motorcycle } = require("./../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -85,7 +85,7 @@ class Users {
           return next({code: 403, message: 'forbidden'})
         }
 
-        const data = await user.findByPk(id)
+        const data = await user.findByPk(id, {include: motorcycle})
 
         if (!data) {
           next({code: 404, message: 'Not Found'})
