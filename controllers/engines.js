@@ -1,4 +1,4 @@
-const { engine } = require('./../models')
+const { engine, motorcycle } = require('./../models')
 
 class Engines {
   static getAll = async (req, res, next) => {
@@ -15,7 +15,9 @@ class Engines {
   };
   static getDetail = async (req, res, next) => {
     try {
-      let data = await engine.findByPk(req.params.id)
+      let data = await engine.findByPk(req.params.id, {
+        include: motorcycle 
+      })
 
       if(!data){
         next({code: 404, message: 'Engines Not Found, try search id'})

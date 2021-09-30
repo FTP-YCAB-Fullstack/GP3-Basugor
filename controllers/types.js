@@ -1,5 +1,5 @@
 const enginesRouter = require('../router/enginesRouter');
-const { type } = require('./../models')
+const { type, motorcycle } = require('./../models')
 
 class Types {
     static getAll = async (req, res, next) => {
@@ -16,7 +16,9 @@ class Types {
     };
     static getDetail = async (req, res, next) => {
         try {
-        let data = await type.findByPk(req.params.id)
+        let data = await type.findByPk(req.params.id, {
+            include: motorcycle
+        })
         
         if(!data) {
             next({code: 404, message: 'Types Not Found, try search another id'})
