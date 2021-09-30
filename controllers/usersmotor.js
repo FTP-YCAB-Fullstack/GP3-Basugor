@@ -1,11 +1,15 @@
 const { user, motorcycle } = require("../models");
-const motorcycles = require("./motorcycles");
 
 class Usermotor {
   static post = async (req, res, next) => {
     try {
       let { userId } = req.params;
       let { motorcycleId } = req.body;
+
+      if (+userId !== req.currentUser.id) {
+        next({ code: 403, message: "Forbidden" });
+      }
+
       console.log(userId);
       const user_ = await user.findByPk(userId);
       const motor = await motorcycle.findByPk(motorcycleId);
@@ -27,13 +31,17 @@ class Usermotor {
       let { motorId } = req.params;
       let { userId } = req.params;
 
+      if (+userId !== req.currentUser.id) {
+        next({ code: 403, message: "Forbidden" });
+      }
+
       const removeUser = await user.findByPk(userId);
       const removeMotor = await motorcycle.findByPk(motorId);
 
       await removeUser.removeMotorcycle(removeMotor);
       console.log(motorId);
       res.status(202).json({
-        message: "the motorcycle has been success removed"
+        message: "the motorcycle has been success removed",
       });
     } catch (error) {
       next({
