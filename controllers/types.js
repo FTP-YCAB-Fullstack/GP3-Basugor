@@ -1,12 +1,10 @@
-const { where } = require('sequelize/types');
-const type = require('../models/type');
 const enginesRouter = require('../router/enginesRouter');
-const { types } = require('./../models')
+const { type } = require('./../models')
 
 class Types {
     static getAll = async (req, res, next) => {
         try {
-            let data = await types.findAll()
+            let data = await type.findAll()
             res.status(200).json({
                 data
             })
