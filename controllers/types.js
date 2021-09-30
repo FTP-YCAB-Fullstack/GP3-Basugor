@@ -1,3 +1,6 @@
+const { where } = require('sequelize/types');
+const type = require('../models/type');
+const enginesRouter = require('../router/enginesRouter');
 const { types } = require('./../models')
 
 class Types {
@@ -47,6 +50,20 @@ class Types {
         } catch (error) {
             next({code: 500, message: error.message})
         };
+    };
+    static patchType = async (req, res, next) => {
+        try {
+            let { name, foundedYear, foundedCountry } = req.body;
+            let {id} = req.params;
+            const data = await types.update({name, foundedYear, foundedCountry}, {
+                where: {id}
+            });
+            res.status(201).json({data})
+        } catch (error) {
+            next({
+                code: 500, message: error.message
+            })
+        }
     };
 }
 
