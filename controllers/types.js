@@ -30,6 +30,24 @@ class Types {
             })
         }
     };
+    static postTypes = async (req, res, next) =>{
+        try {
+            let { name, foundedYear, foundedCountry } = req.body;
+            
+            if (!name || !foundedYear || !foundedCountry) {
+                next({
+                    code: 400, message: 'post invalid'
+                })
+            } else {
+                let data = await enginesRouter.create({name, foundedYear, foundedCountry})
+                res.status(201).json({
+                    data
+                })
+            }
+        } catch (error) {
+            next({code: 500, message: error.message})
+        };
+    };
 }
 
 module.exports = Types;
