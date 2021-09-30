@@ -2,10 +2,10 @@ const router = require('express').Router();
 const auth = require('./../middlewares/auth')
 const controller = require('./../controllers/motorcycles')
 
-router.get('/motorcycles', controller.getAll)
-router.post('/motorcycles', controller.postMotor)
-router.get('/motorcycles/:id', controller.getDetail)
-router.patch('/motorcycles/:id', controller.updateMotor)
-router.delete('/motorcycles/:id', controller.deleteMotor)
+router.get('/motorcycles', auth.Authentication, auth.Authorization(["user", "admin"]), controller.getAll)
+router.get('/motorcycles/:id', auth.Authentication, auth.Authorization(["user", "admin"]), controller.getDetail)
+router.post('/motorcycles', auth.Authentication, auth.Authorization(["admin"]), controller.postMotor)
+router.patch('/motorcycles/:id', auth.Authentication, auth.Authorization(["admin"]), controller.updateMotor)
+router.delete('/motorcycles/:id', auth.Authentication, auth.Authorization(["admin"]), controller.deleteMotor)
 
 module.exports = router;

@@ -59,7 +59,7 @@ class motorcycles {
             let data = await motorcycle.findByPk(req.params.id);
 
             if (!data) {
-                next({code: 404, message: 'Motorcycle not found'})
+                return next({code: 404, message: 'Motorcycle not found'})
             } else {
                 data.motorName = motorName || data.motorName;
                 data.price = price || data.price;
