@@ -1,6 +1,7 @@
 const { user, motorcycle } = require("./../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+// const { Model } = require("sequelize/types");
 
 class Users {
   static signup = async (req, res, next) => {
