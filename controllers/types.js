@@ -65,6 +65,18 @@ class Types {
             })
         }
     };
+    static deleteType = async (req, res, next) => {
+        try {
+            let {id} = req.params;
+            const data = await type.findByPk(id)
+            data.destroy()
+            res.sendStatus(204);
+        } catch (error) {
+            next({
+                code: 500, message: error.message
+            });
+        }
+    }
 }
 
 module.exports = Types;
