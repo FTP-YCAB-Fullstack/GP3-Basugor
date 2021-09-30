@@ -47,7 +47,7 @@ class Factories {
         nameFactory,
         president,
         headquarter,
-        founded,
+        founded: +founded,
       };
 
       let data = await factory.create(newFactory);
@@ -69,7 +69,7 @@ class Factories {
           nameFactory,
           president,
           headquarter,
-          founded,
+          founded: +founded,
         },
         {
           where: {
@@ -92,6 +92,9 @@ class Factories {
       let { id } = req.params;
 
       const deleteFactories = await factory.findByPk(id);
+
+      if (!deleteFactories) return next({code: 404, message: 'Factory not found'})
+
       deleteFactories.destroy();
       res.sendStatus(204);
     } catch (error) {

@@ -15,7 +15,7 @@ module.exports = {
      {
        motorName: "Beat eSP FI",
        price: 18000000,
-       factoryId: 1,
+       factoryId: 2,
        engineId: 1,
        typeId: 1,
        releaseYear: 2012,

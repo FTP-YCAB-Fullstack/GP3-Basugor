@@ -3,6 +3,11 @@ const jwt = require('jsonwebtoken');
 class auth {
   static Authentication = async (req, res, next) => {
     const {token} = req.headers;
+
+    if (!token) {
+      next({code: 401, message: 'Access Denied, Please login'})
+    }
+
     jwt.verify(token, 'motorans', (err, result) => {
       if (err) {
         next({code: 401, message: err.message || 'invalid credential'})
