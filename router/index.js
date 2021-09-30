@@ -13,7 +13,7 @@ index.get("/", (req, res) => {
 index.use(enginesRouter);
 index.use(factoriesRouter);
 index.use(motorcyclesRouter);
-// index.use(typesRouter);
+index.use(typesRouter);
 index.use(usersRouter);
 index.use(usersmotorRouter);
 

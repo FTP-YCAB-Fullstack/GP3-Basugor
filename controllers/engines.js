@@ -9,7 +9,7 @@ class Engines {
       })
     } catch (error) {
       next({
-        code: 500, message: error.message
+        code: 500, message: 'error.message'
       });
     }
   };
