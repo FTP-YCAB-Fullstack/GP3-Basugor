@@ -18,7 +18,7 @@ class Engines {
       let data = await engine.findByPk(req.params.id)
 
       if(!data){
-        next({code: 500, message: 'Engines Not Found, try search id'})
+        next({code: 404, message: 'Engines Not Found, try search id'})
       } else {
         res.status(200).json({
           data
@@ -36,7 +36,11 @@ class Engines {
       if(!transmission || !stroke || !gearbox ){
         next({code: 400, message: 'input invalid'})
       } else {
-        let data = await engine.create({transmission, stroke, gearbox})
+        let data = await engine.create({
+          transmission, 
+          stroke: +stroke, 
+          gearbox: +gearbox
+        })
         res.status(201).json({data})
       }
       
@@ -48,11 +52,23 @@ class Engines {
     try {
       let { transmission, stroke, gearbox } = req.body
       let {id} = req.params
-      const data = await engine.update({transmission, stroke, gearbox}, {
+
+      let exist = await engine.findByPk(id);
+
+      if (!exist) return next({code: 404, message: 'Engine not found'})
+
+      const data = await engine.update(
+        {
+          transmission, 
+          stroke: +stroke, 
+          gearbox: +gearbox
+        }, {
         where: {id}
       });
 
-      res.status(201).json({ message: 'update data success'})
+      if (!data) return next({code: 404, message: 'Engine is not found'})
+
+      res.status(200).json({ message: 'update data success'})
     } catch (error) {
       next({code: 500, error,message})
     }
@@ -60,7 +76,12 @@ class Engines {
   static deleteEngine = async (req, res, next) => {
     try {
       let {id} = req.params
-      const data = await engine.findByPk(id)
+      const data = await engine.findByPk(id);
+
+      if (!data) {
+        return next({code: 404, message: 'Data not found'})
+      }
+
       data.destroy()
 
       res.sendStatus(204)

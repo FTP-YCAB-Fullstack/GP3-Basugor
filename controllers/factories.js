@@ -64,6 +64,10 @@ class Factories {
       let { nameFactory, president, headquarter, founded } = req.body;
       let { id } = req.params;
 
+      let exist = await factory.findByPk(id);
+
+      if (!exist) return next({code: 404, message: 'Factory not found'})
+
       const update = await factory.update(
         {
           nameFactory,
