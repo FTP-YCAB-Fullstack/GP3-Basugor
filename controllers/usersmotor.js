@@ -10,11 +10,12 @@ class Usermotor {
         next({ code: 403, message: "Forbidden" });
       }
 
-      console.log(userId);
       const user_ = await user.findByPk(userId);
       const motor = await motorcycle.findByPk(motorcycleId);
+
+      if (!user_ || !motor) return next({code : 404, message: 'Either User / Motor is not found'})
+
       await user_.addMotorcycle(motor);
-      console.log(motorcycle);
 
       res.status(201).json({
         message: "sukses",
@@ -38,8 +39,9 @@ class Usermotor {
       const removeUser = await user.findByPk(userId);
       const removeMotor = await motorcycle.findByPk(motorId);
 
+      if (!removeUser || !removeMotor) return next({code : 404, message: 'Either User / Motor is not found'})
+
       await removeUser.removeMotorcycle(removeMotor);
-      console.log(motorId);
       res.status(202).json({
         message: "the motorcycle has been success removed",
       });

@@ -1,4 +1,4 @@
-const { factory } = require("../models");
+const { factory, motorcycle } = require("../models");
 
 class Factories {
   static getAll = async (req, res, next) => {
@@ -15,7 +15,9 @@ class Factories {
   };
   static getId = async (req, res, next) => {
     try {
-      let factoriesId = await factory.findByPk(req.params.factoryId);
+      let factoriesId = await factory.findByPk(req.params.factoryId, {
+        include: motorcycle
+      });
 
       if (!factoriesId) {
         next({

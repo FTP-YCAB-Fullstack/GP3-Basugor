@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.user, { through: "usersmotors" });
+      this.belongsTo(models.factory, {foreignKey: 'factoryId'})
     }
   }
   motorcycle.init(
