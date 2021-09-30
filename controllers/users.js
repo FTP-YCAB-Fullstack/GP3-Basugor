@@ -1,6 +1,7 @@
 const { user } = require("./../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+// const { Model } = require("sequelize/types");
 
 class Users {
   static signup = async (req, res, next) => {
@@ -64,16 +65,20 @@ class Users {
   };
   static getAll = async (req, res, next) => {
     try {
-      
+      let data = await user.findAll()
+      res.status(200).json({data})
     } catch (error) {
-      
+      console.log(error)
     }
   }
-  static getId = async (req,res,next) =>{
+  static getId = async (req, res, next) =>{
       try {
-    
+        // let {id} = req.params;
+        // let data = Model.findByPk(el => el.id === +id)
+
+        // res.status(200).json({data})
       } catch (error) {
-    
+        // console.log(error)
       }
   } 
 
