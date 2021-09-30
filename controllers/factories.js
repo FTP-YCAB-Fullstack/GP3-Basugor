@@ -64,6 +64,9 @@ class Factories {
       let { nameFactory, president, headquarter, founded } = req.body;
       let { id } = req.params;
 
+      founded ? founded = +founded : null
+
+
       let exist = await factory.findByPk(id);
 
       if (!exist) return next({code: 404, message: 'Factory not found'})
@@ -73,7 +76,7 @@ class Factories {
           nameFactory,
           president,
           headquarter,
-          founded: +founded,
+          founded,
         },
         {
           where: {

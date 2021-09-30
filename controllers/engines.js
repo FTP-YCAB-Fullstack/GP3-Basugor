@@ -53,6 +53,9 @@ class Engines {
       let { transmission, stroke, gearbox } = req.body
       let {id} = req.params
 
+      stroke ? stroke = +stroke : null
+      gearbox ? gearbox = +gearbox : null
+
       let exist = await engine.findByPk(id);
 
       if (!exist) return next({code: 404, message: 'Engine not found'})
@@ -60,8 +63,8 @@ class Engines {
       const data = await engine.update(
         {
           transmission, 
-          stroke: +stroke, 
-          gearbox: +gearbox
+          stroke, 
+          gearbox
         }, {
         where: {id}
       });
