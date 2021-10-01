@@ -112,7 +112,7 @@ Motorans adalah REST API yang digunakan untuk mencatatat koleksi motor User deng
 **POST** `/factories`
 
     POST Body
-    1. nameFactories
+    1. nameFactory
     2. president
     3. headquarter
     4. founded
@@ -145,7 +145,7 @@ Motorans adalah REST API yang digunakan untuk mencatatat koleksi motor User deng
 **POST** `/type/:id`
 
     POST Body
-    1. typeName
+    1. nameType
     2. foundedYear
     3. foundedCountry
 
