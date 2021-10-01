@@ -1,5 +1,13 @@
 const {motorcycle, engine, type, factory} = require('./../models')
 
+const validator = async (model, id) => {
+    let data = await model.findByPk(id);
+    if (!data) {
+        return false
+    } else {
+        return true
+    }
+}
 
 class motorcycles {
     static getAll = async (req, res, next) => {
@@ -95,6 +103,14 @@ class motorcycles {
             if (!motorName || !price || !factoryId || !engineId || !typeId || !releaseYear) {
                 return next({code: 400, message: 'Invalid input, check the fields again'})
             }
+
+            const fact = await validator(factory, factoryId); 
+            const ty = await validator(type, typeId);
+            const eng = await validator(engine, engineId);
+
+            if (!fact) next({code: 400, message: 'Factories id Not Found'})
+            else if (!ty) next({code: 400, message: 'Type id is not found'})
+            else if (!eng) next({code: 400, message: 'Engine Id is not found'})
 
             let exist = await motorcycle.findOne({where: {motorName}});
 

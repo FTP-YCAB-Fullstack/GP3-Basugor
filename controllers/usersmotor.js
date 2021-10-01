@@ -33,7 +33,7 @@ class Usermotor {
       let { userId } = req.params;
 
       if (+userId !== req.currentUser.id) {
-        next({ code: 403, message: "Forbidden" });
+        return next({ code: 403, message: "Forbidden" });
       }
 
       const removeUser = await user.findByPk(userId);

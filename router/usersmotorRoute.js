@@ -4,22 +4,17 @@ const auth = require("../middlewares/auth");
 
 // usersmotorRouter.get("/users/:userId/motors", usersmotorControl.getAll);
 usersmotorRouter.post(
-  "/users/:userId/motors",
+  "/users/:userId/motorcycles",
   auth.Authentication,
   auth.Authorization(["user"]),
   usersmotorControl.post
 );
+
 usersmotorRouter.delete(
-  "/users/:userId/motors/:motorId",
+  "/users/:userId/motorcycles/:motorId",
   auth.Authentication,
   auth.Authorization(["user"]),
   usersmotorControl.deleteMotor
-);
-usersmotorRouter.patch(
-  "/users/:userId/motors/:motorId",
-  auth.Authentication,
-  auth.Authorization(["user"]),
-  usersmotorControl.patch
 );
 
 module.exports = usersmotorRouter;
