@@ -1,4 +1,4 @@
-const { user, motorcycle } = require("./../models");
+const { user, motorcycle, usersmotor } = require("./../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // const { Model } = require("sequelize/types");
@@ -86,7 +86,22 @@ class Users {
           return next({code: 403, message: 'forbidden'})
         }
 
-        const data = await user.findByPk(id, {include: motorcycle})
+        const data = await user.findByPk(id, 
+          {
+            include: {
+              model: motorcycle,
+              through: {
+                attributes: []
+              },
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              }
+            },
+            attributes: {
+              exclude: ['password']
+            }
+          }
+        )
 
         if (!data) {
           next({code: 404, message: 'Not Found'})
