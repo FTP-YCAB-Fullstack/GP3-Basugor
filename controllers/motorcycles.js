@@ -1,10 +1,50 @@
-const {motorcycle} = require('./../models')
+const {motorcycle, engine, type, factory} = require('./../models')
 
+const validator = async (model, id) => {
+    let data = await model.findByPk(id);
+    if (!data) {
+        return false
+    } else {
+        return true
+    }
+}
 
 class motorcycles {
     static getAll = async (req, res, next) => {
         try {
-            let data = await motorcycle.findAll()
+            let data = await motorcycle.findAll(
+                {
+                    include: [
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            },
+                        },
+                        {
+                            model: factory,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: type,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        }
+                    ],
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt', 'engineId', 'typeId', 'factoryId']
+                    }
+                }
+            )
 
             res.status(200).json(data)
         } catch(err) {
@@ -13,7 +53,39 @@ class motorcycles {
     }
     static getDetail = async (req, res, next) => {
         try {
-            let data = await motorcycle.findByPk(req.params.id)
+            let data = await motorcycle.findByPk(req.params.id, 
+                {
+                    include: [
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            },
+                        },
+                        {
+                            model: factory,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: type,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        }
+                    ],
+                    attributes: {
+                        exclude: ['engineId', 'factoryId', 'typeId', 'createdAt', 'updatedAt']
+                    }
+                }
+            )
 
             if (!data) {
                 next({code: 404, message: 'Motorcycle is not found, try another id'})
@@ -31,6 +103,14 @@ class motorcycles {
             if (!motorName || !price || !factoryId || !engineId || !typeId || !releaseYear) {
                 return next({code: 400, message: 'Invalid input, check the fields again'})
             }
+
+            const fact = await validator(factory, factoryId); 
+            const ty = await validator(type, typeId);
+            const eng = await validator(engine, engineId);
+
+            if (!fact) next({code: 400, message: 'Factories id Not Found'})
+            else if (!ty) next({code: 400, message: 'Type id is not found'})
+            else if (!eng) next({code: 400, message: 'Engine Id is not found'})
 
             let exist = await motorcycle.findOne({where: {motorName}});
 

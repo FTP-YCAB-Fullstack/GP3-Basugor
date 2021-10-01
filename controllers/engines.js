@@ -1,9 +1,13 @@
-const { engine } = require('./../models')
+const { engine, motorcycle } = require('./../models')
 
 class Engines {
   static getAll = async (req, res, next) => {
     try {
-      let data = await engine.findAll()
+      let data = await engine.findAll({attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }, attributes: {
+        exclude: ['createdAt', 'updatedAt']
+    }})
       res.status(200).json({
         data
       })
@@ -15,7 +19,17 @@ class Engines {
   };
   static getDetail = async (req, res, next) => {
     try {
-      let data = await engine.findByPk(req.params.id)
+      let data = await engine.findByPk(req.params.id, {
+        include: {
+          model: motorcycle,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+      } 
+      })
 
       if(!data){
         next({code: 404, message: 'Engines Not Found, try search id'})
@@ -53,6 +67,9 @@ class Engines {
       let { transmission, stroke, gearbox } = req.body
       let {id} = req.params
 
+      stroke ? stroke = +stroke : null
+      gearbox ? gearbox = +gearbox : null
+
       let exist = await engine.findByPk(id);
 
       if (!exist) return next({code: 404, message: 'Engine not found'})
@@ -60,8 +77,8 @@ class Engines {
       const data = await engine.update(
         {
           transmission, 
-          stroke: +stroke, 
-          gearbox: +gearbox
+          stroke, 
+          gearbox
         }, {
         where: {id}
       });

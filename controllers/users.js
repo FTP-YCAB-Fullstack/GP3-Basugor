@@ -1,4 +1,4 @@
-const { user, motorcycle } = require("./../models");
+const { user, motorcycle, usersmotor } = require("./../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // const { Model } = require("sequelize/types");
@@ -70,8 +70,11 @@ class Users {
   };
   static getAll = async (req, res, next) => {
     try {
-      console.log(req.user)
-      const data = await user.findAll()
+      const data = await user.findAll({
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'password']
+        }
+      })
       res.status(200).json(data)
     } catch (error) {
       next({code: 500, message: error.message})
@@ -86,7 +89,22 @@ class Users {
           return next({code: 403, message: 'forbidden'})
         }
 
-        const data = await user.findByPk(id, {include: motorcycle})
+        const data = await user.findByPk(id, 
+          {
+            include: {
+              model: motorcycle,
+              through: {
+                attributes: []
+              },
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              }
+            },
+            attributes: {
+              exclude: ['password']
+            }
+          }
+        )
 
         if (!data) {
           next({code: 404, message: 'Not Found'})
@@ -104,7 +122,7 @@ class Users {
       let {name, email, password} = req.body;
 
       if (req.currentUser.id !== +id) {
-        next({code: 403, message: 'Forbidden'})
+        return next({code: 403, message: 'Forbidden'})
       }
 
       const data = await user.findByPk(id);
