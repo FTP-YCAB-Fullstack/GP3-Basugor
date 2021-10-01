@@ -3,7 +3,14 @@ const { factory, motorcycle } = require("../models");
 class Factories {
   static getAll = async (req, res, next) => {
     try {
-      const factories = await factory.findAll();
+      const factories = await factory.findAll({
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      });
 
       res.status(200).json(factories);
     } catch (error) {
@@ -16,7 +23,15 @@ class Factories {
   static getId = async (req, res, next) => {
     try {
       let factoriesId = await factory.findByPk(req.params.factoryId, {
-        include: motorcycle
+        include: {
+          model: motorcycle,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
       });
 
       if (!factoriesId) {

@@ -42,9 +42,7 @@ class Usermotor {
       if (!removeUser || !removeMotor) return next({code : 404, message: 'Either User / Motor is not found'})
 
       await removeUser.removeMotorcycle(removeMotor);
-      res.status(202).json({
-        message: "the motorcycle has been success removed",
-      });
+      res.sendStatus(204)
     } catch (error) {
       next({
         code: 500,
