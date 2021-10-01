@@ -121,9 +121,11 @@ class Users {
       let {id} = req.params;
       let {name, email, password} = req.body;
 
+      
       if (req.currentUser.id !== +id) {
         return next({code: 403, message: 'Forbidden'})
       }
+      password ? password = bcrypt.hashSync(password, 10) : null;
 
       const data = await user.findByPk(id);
 
