@@ -133,16 +133,16 @@ Motorans adalah REST API yang digunakan untuk mencatatat koleksi motor User deng
 
 ## TYPES
 
-**GET** `/type`
+**GET** `/types`
 
     Types GET berfungsi untuk menampilkan semua data yang ada di Types (users sama admin bisa akses data Types)
 
-**GET** `/tpye/:id`
+**GET** `/types/:id`
 
     Types GET berfungsi untuk menampilkan data detail yang ada di Types (users sama admin bisa akses data detail
     Types)
 
-**POST** `/type/:id`
+**POST** `/types/:id`
 
     POST Body
     1. nameType
@@ -151,10 +151,10 @@ Motorans adalah REST API yang digunakan untuk mencatatat koleksi motor User deng
 
     Types **POST** digunakan untuk membuat data baru di data Types (hanya bisa dilakukan oleh admin saja)
 
-**PATCH** `/type/:id`
+**PATCH** `/types/:id`
 
     Types PATCH berfungsi untuk melakukan update data Types nya (hanya bisa dilakukan oleh admin)
 
-**DELETE** `/type/:id`
+**DELETE** `/types/:id`
 
     Types DELETE berfungsi untuk menghapus/delete data Types nya (hanya bisa di lakukan oleh admin)
