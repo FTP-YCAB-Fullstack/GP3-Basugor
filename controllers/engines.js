@@ -3,7 +3,9 @@ const { engine, motorcycle } = require('./../models')
 class Engines {
   static getAll = async (req, res, next) => {
     try {
-      let data = await engine.findAll()
+      let data = await engine.findAll({attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }})
       res.status(200).json({
         data
       })
@@ -16,7 +18,12 @@ class Engines {
   static getDetail = async (req, res, next) => {
     try {
       let data = await engine.findByPk(req.params.id, {
-        include: motorcycle 
+        include: {
+          model: motorcycle,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        } 
       })
 
       if(!data){

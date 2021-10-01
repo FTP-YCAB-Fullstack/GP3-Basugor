@@ -4,7 +4,39 @@ const {motorcycle, engine, type, factory} = require('./../models')
 class motorcycles {
     static getAll = async (req, res, next) => {
         try {
-            let data = await motorcycle.findAll()
+            let data = await motorcycle.findAll(
+                {
+                    include: [
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            },
+                        },
+                        {
+                            model: factory,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: type,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        }
+                    ],
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt', 'engineId', 'typeId', 'factoryId']
+                    }
+                }
+            )
 
             res.status(200).json(data)
         } catch(err) {
@@ -15,7 +47,32 @@ class motorcycles {
         try {
             let data = await motorcycle.findByPk(req.params.id, 
                 {
-                    include: [engine, type, factory],
+                    include: [
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            },
+                        },
+                        {
+                            model: factory,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: engine,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        },
+                        {
+                            model: type,
+                            attributes: {
+                                exclude: ['id','createdAt', 'updatedAt']
+                            }
+                        }
+                    ],
                     attributes: {
                         exclude: ['engineId', 'factoryId', 'typeId', 'createdAt', 'updatedAt']
                     }

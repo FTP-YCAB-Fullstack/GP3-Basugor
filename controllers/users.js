@@ -70,8 +70,11 @@ class Users {
   };
   static getAll = async (req, res, next) => {
     try {
-      console.log(req.user)
-      const data = await user.findAll()
+      const data = await user.findAll({
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'password']
+        }
+      })
       res.status(200).json(data)
     } catch (error) {
       next({code: 500, message: error.message})
@@ -119,7 +122,7 @@ class Users {
       let {name, email, password} = req.body;
 
       if (req.currentUser.id !== +id) {
-        next({code: 403, message: 'Forbidden'})
+        return next({code: 403, message: 'Forbidden'})
       }
 
       const data = await user.findByPk(id);
