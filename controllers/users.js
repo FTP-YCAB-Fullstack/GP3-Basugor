@@ -60,7 +60,7 @@ class Users {
           );
           const tokenEx = jwt.sign(
             { id: userJson.id, role: userJson.role },
-            "motorans",{expiresIn:"2s"}
+            "motorans",{expiresIn:"15 minutes"}
           );
           res.status(200).json({
             message:"This token is permanent, you can use forever",
@@ -145,11 +145,12 @@ class Users {
 
       const userJson = data.toJSON();
 
-      const token = jwt.sign(
-        { id: userJson.id, role: userJson.role },
-        "motorans",{notBefore:"1 minutes"}
-      );
-      const verif = jwt.verify(token,"motorans")
+      //belum fix masi nyoba
+      // const token = jwt.sign(
+      //   { id: userJson.id, role: userJson.role },
+      //   "motorans",{notBefore:"1 minutes"}
+      // );
+      // const verif = jwt.verify(token,"motorans")
 
       await data.save()
       console.log(userJson)
