@@ -57,7 +57,7 @@ class Users {
         } else {
           const token = jwt.sign(
             { id: userJson.id, role: userJson.role },
-            "motorans"
+            process.env.JWT_TOKEN
           );
           res.status(200).json({
             token,

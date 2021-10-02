@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require("express");
 const Router = require("./router");
 const port = 4000;

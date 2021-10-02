@@ -8,7 +8,7 @@ class auth {
       next({code: 401, message: 'Access Denied, Please login'})
     }
 
-    jwt.verify(token, 'motorans', (err, result) => {
+    jwt.verify(token, process.env.JWT_TOKEN, (err, result) => {
       if (err) {
         next({code: 401, message: err.message || 'invalid credential'})
       } else {
