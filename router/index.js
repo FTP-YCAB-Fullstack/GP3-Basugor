@@ -6,6 +6,8 @@ const typesRouter = require("./typesRouter");
 const usersRouter = require("./usersRouter");
 const usersmotorRouter = require("./usersmotorRoute");
 
+const get3 = require('./../controllers/getAll')
+
 index.get("/", (req, res) => {
   res.send("Router");
 });
@@ -16,5 +18,7 @@ index.use(motorcyclesRouter);
 index.use(typesRouter);
 index.use(usersRouter);
 index.use(usersmotorRouter);
+
+index.get('/collections', get3)
 
 module.exports = index;
