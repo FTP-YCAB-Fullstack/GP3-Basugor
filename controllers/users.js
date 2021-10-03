@@ -1,7 +1,6 @@
 const { user, motorcycle, usersmotor } = require("./../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const { Model } = require("sequelize/types");
 
 class Users {
   static signup = async (req, res, next) => {
@@ -54,20 +53,39 @@ class Users {
         if (!validate) {
           next({ code: 401, message: "Login Failed" });
         } else {
-          const token = jwt.sign(
-            { id: userJson.id, role: userJson.role },
-            process.env.JWT_TOKEN
-          );
-          const tokenEx = jwt.sign(
-            { id: userJson.id, role: userJson.role },
-            "motorans",{expiresIn:"15 minutes"}
-          );
-          res.status(200).json({
-            message:"This token is permanent, you can use forever",
-            token,
-            messageExpired:"This token is only valid for 15 minutes",
-            tokenEx
-          });
+          if (!userJson.token) {
+            let sendToken = jwt.sign(
+              { id: userJson.id, role: userJson.role },
+              process.env.JWT_TOKEN,
+            );
+
+            await user.update({token: sendToken}, {where: {id: userJson.id}});
+
+
+            res.status(200).json({
+              message: 'Success Login',
+              token: sendToken
+            })
+          } else {
+            res.status(200).json({
+              message: 'Success Login',
+              token: userJson.token
+            })
+          }
+          // const token = jwt.sign(
+          //   { id: userJson.id, role: userJson.role },
+          //   process.env.JWT_TOKEN
+          // );
+          // const tokenEx = jwt.sign(
+          //   { id: userJson.id, role: userJson.role },
+          //   "motorans",{expiresIn:"15 minutes"}
+          // );
+          // res.status(200).json({
+          //   message:"This token is permanent, you can use forever",
+          //   token,
+          //   messageExpired:"This token is only valid for 15 minutes",
+          //   tokenEx
+          // });
         }
       }
     } catch (error) {
@@ -78,7 +96,7 @@ class Users {
     try {
       const data = await user.findAll({
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password']
+          exclude: ['createdAt', 'updatedAt', 'password', 'token']
         }
       })
       res.status(200).json(data)
@@ -124,24 +142,27 @@ class Users {
   };
   static patch = async (req, res, next) => {
     try {
-      let {id} = req.params;
+      let {updateId} = req.params;
       let {name, email, password} = req.body;
 
       
-      if (req.currentUser.id !== +id) {
+      if (req.currentUser.id !== +updateId) {
         return next({code: 403, message: 'Forbidden'})
       }
       password ? password = bcrypt.hashSync(password, 10) : null;
 
-      const data = await user.findByPk(id);
+      const data = await user.findByPk(updateId);
 
       if (!data) {
         return next({code: 400, message: 'User not found'})
       }
 
+      const newToken = jwt.sign({id: +data.id, role: data.role}, process.env.JWT_TOKEN)
+
       data.name = name || data.name;
       data.email = email || data.email;
       data.password = password || data.password
+      data.token = newToken
 
       const userJson = data.toJSON();
 
@@ -153,11 +174,6 @@ class Users {
       // const verif = jwt.verify(token,"motorans")
 
       await data.save()
-      console.log(userJson)
-      console.log(req.headers)
-      console.log(token)
-      console.log(verif)
-
       res.status(200).json({
         status: 'updated'
       })

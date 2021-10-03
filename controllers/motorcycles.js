@@ -142,11 +142,11 @@ class motorcycles {
                 return next({code: 404, message: 'Motorcycle not found'})
             } else {
                 data.motorName = motorName || data.motorName;
-                data.price = price || data.price;
-                data.factoryId = factoryId || data.factoryId;
-                data.engineId = engineId || data.engineId;
-                data.typeId = typeId || data.typeId;
-                data.releaseYear = releaseYear || data.releaseYear;
+                data.price = +price || data.price;
+                data.factoryId = +factoryId || data.factoryId;
+                data.engineId = +engineId || data.engineId;
+                data.typeId = +typeId || data.typeId;
+                data.releaseYear = +releaseYear || data.releaseYear;
                 await data.save()
             }
 

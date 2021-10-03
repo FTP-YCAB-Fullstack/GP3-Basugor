@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
+      token: {
+        type: DataTypes.STRING
+      }
     },
     {
       sequelize,

@@ -1,25 +1,34 @@
 const jwt = require('jsonwebtoken');
+const {user} = require('./../models')
 
 class auth {
   static Authentication = async (req, res, next) => {
-    const {token} = req.headers;
-
+    let {token} = req.headers;
+    let {updateId} = req.params
+    
     if (!token) {
-      next({code: 401, message: 'Access Denied, Please login'})
+      return next({code: 401, message: 'Access Denied, Please login'})
+    } else {
+      if (updateId) {
+        let user_ = await user.findByPk(+updateId);
+        if (token !== user_.token) {
+          return next({code: 401, message: 'Invalid Token'})
+        }
+      }
+
+      jwt.verify(token, process.env.JWT_TOKEN, (err, result) => {
+        if (err) {
+          next({code: 401, message: err.message || 'invalid credential'})
+        } else {
+          req.currentUser = result
+          next()
+        }
+      })
     }
 
-    jwt.verify(token, process.env.JWT_TOKEN, (err, result) => {
-      if (err) {
-        next({code: 401, message: err.message || 'invalid credential'})
-      } else {
-        req.currentUser = result
-        next()
-      }
-    })
   };
   static Authorization = (roles) => async (req, res, next) => {
     try {
-      console.log(req.currentUser)
       if (!roles.includes(req.currentUser.role)) {
         next({
           code: 403,
