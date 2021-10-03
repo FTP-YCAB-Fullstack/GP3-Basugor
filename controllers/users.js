@@ -8,7 +8,6 @@ class Users {
     try {
       let { name, email, password } = req.body;
 
-      console.log(bcrypt.hashSync(password, 10));
 
       if (!email.includes("@")) {
         return next({ code: 400, message: "Invalid email" });
@@ -59,8 +58,15 @@ class Users {
             { id: userJson.id, role: userJson.role },
             process.env.JWT_TOKEN
           );
+          const tokenEx = jwt.sign(
+            { id: userJson.id, role: userJson.role },
+            "motorans",{expiresIn:"15 minutes"}
+          );
           res.status(200).json({
+            message:"This token is permanent, you can use forever",
             token,
+            messageExpired:"This token is only valid for 15 minutes",
+            tokenEx
           });
         }
       }
@@ -101,7 +107,7 @@ class Users {
               }
             },
             attributes: {
-              exclude: ['password']
+              exclude: ['password','createdAt', 'updatedAt']
             }
           }
         )
@@ -137,7 +143,20 @@ class Users {
       data.email = email || data.email;
       data.password = password || data.password
 
+      const userJson = data.toJSON();
+
+      //belum fix masi nyoba
+      // const token = jwt.sign(
+      //   { id: userJson.id, role: userJson.role },
+      //   "motorans",{notBefore:"1 minutes"}
+      // );
+      // const verif = jwt.verify(token,"motorans")
+
       await data.save()
+      console.log(userJson)
+      console.log(req.headers)
+      console.log(token)
+      console.log(verif)
 
       res.status(200).json({
         status: 'updated'
