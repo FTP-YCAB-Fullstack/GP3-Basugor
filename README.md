@@ -1,160 +1,252 @@
-# MOTORANS
+# __MOTORANS APIs__
 
 Motorans adalah REST API yang digunakan untuk mencatatat koleksi motor User dengan berbagai macam type, REST API ini juga bisa menampilkan data asal pabrik, engine, dan type motor
 
-## USERS
+<br>
 
-**POST** `/users/login`
+## **Schema ERD Desain**
+APIs ini dibuat berdasarkan Schema yang kita rancang, bisa dilihat melalui link dibawah ini
+> [ERD DESAIN](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=DrawIo%20Basugor#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1NQBDu-KWJ3h_H8k_kncZl1Nld0-LukHx%26export%3Ddownload)
 
-    POST Body:
-    1. email
-    2. password
+<br>
 
-    Users login berguna untuk melakukan login jika user sudah melakukan signUp
+# USERS
 
-**POST** `/users/signup`
+> - **POST**  `/users/login`
 
-    POST Body:
-    1. name
-    2. email
-    3. Password
+      POST Body :
+      1. email
+      2. password               
 
-    Users signup berguna untuk melakukan signUp/register user
+      Users login berguna untuk melakukan login jika user sudah melakukan signUp
+   
+<br>
 
-**GET** `/users`
+> - **POST** `/users/signup`
 
-    Users GET berfungsi untuk menampilkan semua data user  (hanya bisa di akses oleh admin)
+      POST Body :
+      1. name
+      2. email
+      3. Password
 
-**GET** `/users/:id`
+      Users signup berguna untuk melakukan signUp/register user
 
-    Users GET berfungsi untuk menampilkan data detail users hanya dirinya saja (users tidak bisa akses data users lain nya)
+<br>
 
-**PATCH** `/users/:id`
+ > - **GET** `/users`
 
-    Users PATCH berfungsi untuk melakukan update data users (hanya users yang bisa melakukan update data dirinya dan
-    admin tidak bisa melakukan update di data users)
+   *note : hanya bisa di akses oleh admin*
 
-**POST** `/users/:id/motorcycles`
+      Users GET berfungsi untuk menampilkan semua data users 
+   
+<br>
 
-    POST Body :
-    1. Motorcycled
+> - **GET** `/users/:id`
 
-    POST Motorcycles berfungsi untuk menambahkan motor ke koleksi user
+   *note : users hanya bisa mengakses datanya sendiri*
 
-**DELETE** `/users/:id/motorcyles/:motorcyclesId`
+      Users GET berfungsi untuk menampilkan data detail users hanya dirinya saja 
+        
+<br> 
 
-    DELETE digunakan untuk menghapus pilihan motor dari koleksi user
+> - **PATCH** `/users/:id`
 
-## MOTORCYCLES
+   *note : hanya users yang dapat membuat dan update infromation, selain users tidak bisa*
 
-**GET** `/motorcycles`
+      Users PATCH berfungsi untuk melakukan update data users
 
-    Motorcycles GET berfungsi untuk menampilkan semua data yang berada di dalam data motorcycles
+<br>
 
-**GET** `/motorcycles/:id`
+> - **POST** `/users/:id/motorcycles`
 
-    Motorcycles GET berfungsi untuk menampilkan data detail yang sesuai dengan id
+      POST Body :
+      1. Motorcycled
+      
+      POST Motorcycles berfungsi untuk menambahkan motor ke koleksi user
+<br> 
 
-**POST** `/motorcycles`
+> - **DELETE** `/users/:id/motorcyles/:motorcyclesId`
 
-    POST Body:
-    1. motorName
-    2. price
-    3. factoriesId
-    4. engineId
-    5. typeId
-    6. releaseYear
+    DELETE digunakan untuk menghapus pilihan motor dari koleksi user 
+<br>
 
-    Motorcycles POST digunakan untuk membuat/create koleksi motor baru yang ada di `/motorcycles`
+# MOTORCYCLES
 
-**PATCH** `/motorcycles/:id`
+> - **GET** `/motorcycles`
 
-    Motorcycles PATCH berfungsi untuk melakukan update koleksi motor ( **only admin** )
+   *note : hanya bisa di akses oleh admin dan users*
 
-**DELETE** `/motorcycles/:id`
+      Motorcycles GET berfungsi untuk menampilkan semua data yang berada di dalam data motorcycles
+<br>
 
-    Motorcycles DELETE berfungsi untuk  meghapus koleksi motor yang berada di `/motorcycles`
+> - **GET** `/motorcycles/:id`
 
-## ENGINES
+   *note : hanya bisa di akses oleh admin dan users*
 
-**GET** `/engines`
+      Motorcycles GET berfungsi untuk menampilkan data detail yang berada di motorcycles sesuai dengan id 
+<br>
 
-    Engines GET berfungsi untuk menampilkan semua data yang ada di Engines (users sama admin bisa akses data engines)
+> - **POST** `/motorcycles`
 
-**POST** `/engines`
+   *note : hanya bisa dilakukan oleh admin* 
 
-    Post body terdapat :
+      POST Body :
+      1. motorName
+      2. price
+      3. factoriesId
+      4. engineId
+      5. typeId
+      6. releaseYear
+
+      Motorcycles POST digunakan untuk membuat/create koleksi motor baru
+<br>
+
+> - **PATCH** `/motorcycles/:id`
+
+   *note : hanya bisa di lakukan oleh admin*
+
+    Motorcycles PATCH berfungsi untuk melakukan update koleksi motor
+<br>
+
+> - **DELETE** `/motorcycles/:id`
+
+   *note : hanya bisa di lakukan oleh admin*
+
+    Motorcycles DELETE berfungsi untuk  meghapus koleksi motor yang berada di motorcycles
+<br>
+
+# ENGINES
+
+> - **GET** `/engines`
+
+   *note : hanya bisa di akses oleh users dan admin*
+
+    Engines GET berfungsi untuk menampilkan semua data yang ada di Engines
+<br>
+
+> - **POST** `/engines`
+
+   *note : hanya bisa di lakukan oleh admin*
+
+    Post body terdapat : 
     1. transmission
     2. stroke
     3. gearbox
 
-    Engines POST digunakan untuk membuat data baru di data engines (hanya bisa dilakukan oleh admin saja)
+    Engines POST digunakan untuk membuat data baru di informasi data engines
 
-**GET** `/engines/:id`
+> - **GET** `/engines/:id`
 
-    Engines GET berfungsi untuk menampilkan data detail yang ada di Engines (users sama admin bisa akses data detail
-    engines)
+   *note : hanya bisa di akses oleh admin dan users*
 
-**PATCH** `/engines/:id`
+    Engines GET berfungsi untuk menampilkan data detail yang ada di Engines
+<br>
 
-    Engines PATCH berfungsi untuk melakukan update data engines nya (hanya bisa dilakukan oleh admin)
+> - **PATCH** `/engines/:id`
 
-**DELETE** `/engines/:id`
+   *note : hanya bisa di lakukan oleh admin*
 
-    Engines DELETE berfungsi untuk menghapus/delete data engines nya (hanya bisa di lakukan oleh admin)
+    Engines PATCH berfungsi untuk melakukan update data informasi engines
+<br>
 
-## FACTORIES
+> - **DELETE** `/engines/:id`
 
-**GET** `/factories`
+   *note : hanya bisa di lakukan oleh admin*
 
-    Factories GET berfungsi untuk menampilkan semua informasi data dari factories
+    Engines DELETE berfungsi untuk menghapus/delete informasi data engines
+<br>
 
-**POST** `/factories`
+# FACTORIES
 
-    POST Body
+> - **GET** `/factories`
+
+   *note : hanya bisa di akses oleh admin dan users*
+
+    Factories GET berfungsi untuk menampilkan semua informasi data dari factories 
+<br>
+
+> - **POST** `/factories`
+
+   *note : hanya bisa di lakukan oleh admin*
+
+    POST Body :
     1. nameFactory
     2. president
     3. headquarter
     4. founded
 
-    Factories POST berfungsi untuk membuat/create informasi data baru ( hanya bisa dilakukan oleh admin)
+    Factories POST berfungsi untuk membuat/create informasi data baru yang berada di factories
+<br>
 
-**GET** `/factories/:id`
+> - **GET** `/factories/:id`
 
-    Factories GET berfungsi untuk menampilkan informasi data secara spesifik mengguna ID
+   *note : bisa di akses oleh admin dan users*
 
-**PATCH** `/factories/:id`
+    Factories GET berfungsi untuk menampilkan informasi data secara spesifik yang berada di factories dengan menggunakan id
+<br>
 
-    Factories PATCH berfungsi untuk update informasi data ( hanya bisa dilakukan oleh admin )
+> - **PATCH** `/factories/:id`
 
-**DELETE** `/factories/:id`
+   *note : hanya bisa di lakukan oleh admin*
 
-    Factories DELETE berfungsi untuk mengahapus informasi data ( hanya bisa dilakukan oleh admin )
+    Factories PATCH berfungsi untuk update informasi data yang berada di factories
+<br>
 
-## TYPES
+> - **DELETE** `/factories/:id`
 
-**GET** `/types`
+   *note : hanya bisa di lakukan oleh admin*
 
-    Types GET berfungsi untuk menampilkan semua data yang ada di Types (users sama admin bisa akses data Types)
+    Factories DELETE berfungsi untuk mengahapus informasi data yang berada di factories
+<br>
 
-**GET** `/types/:id`
+# TYPES
 
-    Types GET berfungsi untuk menampilkan data detail yang ada di Types (users sama admin bisa akses data detail
-    Types)
+> - **GET** `/types`
 
-**POST** `/types/:id`
+   *note : hanya bisa akses oleh admin dan users*
 
-    POST Body
-    1. nameType
+    Types GET berfungsi untuk menampilkan semua data yang berada di Types
+<br>
+
+> - **GET** `/types/:id`
+
+   *note : hanya bisa akses oleh admin dan users*
+
+    Types GET berfungsi untuk menampilkan data detail yang berada di Types
+<br>
+
+> - **POST** `/types/:id`
+
+   *note : hanya bisa dilakukan oleh admin*
+
+    POST Body :
+    1. name
     2. foundedYear
     3. foundedCountry
 
-    Types **POST** digunakan untuk membuat data baru di data Types (hanya bisa dilakukan oleh admin saja)
+    Types POST digunakan untuk membuat data baru di data yang berada Types
 
-**PATCH** `/types/:id`
+> - **PATCH** `/types/:id`
 
-    Types PATCH berfungsi untuk melakukan update data Types nya (hanya bisa dilakukan oleh admin)
+   *note : hanya bisa dilakukan oleh admin*
 
-**DELETE** `/types/:id`
+    Types PATCH berfungsi untuk melakukan update data yang berada di Types 
+<br>
 
-    Types DELETE berfungsi untuk menghapus/delete data Types nya (hanya bisa di lakukan oleh admin)
+> - **DELETE** `/types/:id`
+
+   *note : hanya bisa dilakukan oleh admin*
+
+    Types DELETE berfungsi untuk menghapus/delete data yang berada Types
+    
+    
+<br>
+
+# COLLECTIONS 
+
+> - GET `/collections`
+
+*note : hanya bisa di lakukan oleh admin dan users*
+
+    GET collections berfungsi untuk menampilkan semua informasi data dari Engine, Factories dan Type dalam satu GET 
+
