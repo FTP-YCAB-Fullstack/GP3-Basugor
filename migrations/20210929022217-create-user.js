@@ -33,6 +33,9 @@ module.exports = {
           isEmail: true,
         },
       },
+      token: {
+        type: DataTypes.STRING
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

@@ -6,6 +6,8 @@ const typesRouter = require("./typesRouter");
 const usersRouter = require("./usersRouter");
 const usersmotorRouter = require("./usersmotorRoute");
 
+const auth = require('./../middlewares/auth')
+
 const get3 = require('./../controllers/getAll')
 
 index.get("/", (req, res) => {
@@ -19,6 +21,6 @@ index.use(typesRouter);
 index.use(usersRouter);
 index.use(usersmotorRouter);
 
-index.get('/collections', get3)
+index.get('/collections', auth.Authentication, auth.Authorization(["admin", "user"]),get3)
 
 module.exports = index;
