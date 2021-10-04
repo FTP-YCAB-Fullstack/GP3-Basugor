@@ -3,14 +3,14 @@ const { user, motorcycle } = require("../models");
 class Usermotor {
   static post = async (req, res, next) => {
     try {
-      let { userId } = req.params;
+      let { updateId } = req.params;
       let { motorcycleId } = req.body;
 
-      if (+userId !== req.currentUser.id) {
+      if (+updateId !== req.currentUser.id) {
         next({ code: 403, message: "Forbidden" });
       }
 
-      const user_ = await user.findByPk(userId);
+      const user_ = await user.findByPk(updateId);
       const motor = await motorcycle.findByPk(motorcycleId);
 
       if (!user_ || !motor) return next({code : 404, message: 'Either User / Motor is not found'})
@@ -30,13 +30,13 @@ class Usermotor {
   static deleteMotor = async (req, res, next) => {
     try {
       let { motorId } = req.params;
-      let { userId } = req.params;
+      let { updateId } = req.params;
 
-      if (+userId !== req.currentUser.id) {
+      if (+updateId !== req.currentUser.id) {
         return next({ code: 403, message: "Forbidden" });
       }
 
-      const removeUser = await user.findByPk(userId);
+      const removeUser = await user.findByPk(updateId);
       const removeMotor = await motorcycle.findByPk(motorId);
 
       if (!removeUser || !removeMotor) return next({code : 404, message: 'Either User / Motor is not found'})
