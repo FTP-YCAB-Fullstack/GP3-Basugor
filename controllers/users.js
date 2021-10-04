@@ -107,13 +107,13 @@ class Users {
   static getId = async (req,res,next) =>{
       try {
         
-        let {id} = req.params
+        let {updateId} = req.params
 
-        if (req.currentUser.id !== +id) {
+        if (req.currentUser.id !== +updateId) {
           return next({code: 403, message: 'forbidden'})
         }
 
-        const data = await user.findByPk(id, 
+        const data = await user.findByPk(updateId, 
           {
             include: {
               model: motorcycle,
